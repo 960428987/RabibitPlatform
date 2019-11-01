@@ -22,23 +22,23 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace RabbitPlatform.Domain
+namespace RabbitPlatform.Data
 { 
     public interface IDeleteAudited
     {
         /// <summary>
         /// 逻辑删除标记
         /// </summary>
-        bool? F_DeleteMark { get; set; }
+        bool? FDeleteMark { get; set; }
 
         /// <summary>
         /// 删除实体的用户
         /// </summary>
-        string F_DeleteUserId { get; set; }
+        string FDeleteUserId { get; set; }
 
         /// <summary>
         /// 删除实体时间
         /// </summary>
-        DateTime? F_DeleteTime { get; set; }
+        DateTime? FDeleteTime { get; set; }
     }
 }

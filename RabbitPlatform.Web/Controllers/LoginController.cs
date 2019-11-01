@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RabbitPlatform.Application;
+using RabbitPlatform.Application.SystemManage;
 using RabbitPlatform.Core;
-using RabbitPlatform.Domain.SystemManage;
-using RabbitPlatform.Domain.SystemSecurity;
-
+using RabbitPlatform.Data;
+using RabbitPlatform.Application.SystemSecurity;
 namespace RabbitPlatform.Web.Controllers
 {
     public class LoginController : Controller
@@ -43,9 +43,9 @@ namespace RabbitPlatform.Web.Controllers
         [HandlerAjaxOnly]
         public ActionResult CheckLogin(string username, string password, string code)
         {
-            LogEntity logEntity = new LogEntity();
-            logEntity.F_ModuleName = "系统登录";
-            logEntity.F_Type = DbLogType.Login.ToString();
+            SysLog logEntity = new SysLog();
+            logEntity.FModuleName = "系统登录";
+            logEntity.FType = DbLogType.Login.ToString();
             try
             {
                 if (WebHelper.GetSession("nfine_session_verifycode").IsEmpty() || Md5.md5(code.ToLower(), 16) != WebHelper.GetSession("nfine_session_verifycode").ToString())
@@ -53,21 +53,21 @@ namespace RabbitPlatform.Web.Controllers
                     throw new Exception("验证码错误，请重新输入");
                 }
 
-                UserEntity userEntity = new UserApp().CheckLogin(username, password);
+                SysUser userEntity = new UserApp().CheckLogin(username, password);
                 if (userEntity != null)
                 {
                     OperatorModel operatorModel = new OperatorModel();
-                    operatorModel.UserId = userEntity.F_Id;
-                    operatorModel.UserCode = userEntity.F_Account;
-                    operatorModel.UserName = userEntity.F_RealName;
-                    operatorModel.CompanyId = userEntity.F_OrganizeId;
-                    operatorModel.DepartmentId = userEntity.F_DepartmentId;
-                    operatorModel.RoleId = userEntity.F_RoleId;
+                    operatorModel.UserId = userEntity.FId;
+                    operatorModel.UserCode = userEntity.FAccount;
+                    operatorModel.UserName = userEntity.FRealName;
+                    operatorModel.CompanyId = userEntity.FOrganizeId;
+                    operatorModel.DepartmentId = userEntity.FDepartmentId;
+                    operatorModel.RoleId = userEntity.FRoleId;
                     operatorModel.LoginIPAddress = Net.Ip;
                     operatorModel.LoginIPAddressName = Net.GetLocation(operatorModel.LoginIPAddress);
                     operatorModel.LoginTime = DateTime.Now;
                     operatorModel.LoginToken = DESEncrypt.Encrypt(Guid.NewGuid().ToString());
-                    if (userEntity.F_Account == "admin")
+                    if (userEntity.FAccount == "admin")
                     {
                         operatorModel.IsSystem = true;
                     }
@@ -76,24 +76,23 @@ namespace RabbitPlatform.Web.Controllers
                         operatorModel.IsSystem = false;
                     }
                     OperatorProvider.Provider.AddCurrent(operatorModel);
-                    logEntity.F_Account = userEntity.F_Account;
-                    logEntity.F_NickName = userEntity.F_RealName;
-                    logEntity.F_Result = true;
-                    logEntity.F_Description = "登录成功";
+                    logEntity.FAccount = userEntity.FAccount;
+                    logEntity.FNickName = userEntity.FRealName;
+                    logEntity.FResult = true;
+                    logEntity.FDescription = "登录成功";
                     new LogApp().WriteDbLog(logEntity);
                 }
                 return Content(new AjaxResult { state = ResultType.success.ToString(), message = "登录成功。" }.ToJson());
             }
             catch (Exception ex)
             {
-                logEntity.F_Account = username;
-                logEntity.F_NickName = username;
-                logEntity.F_Result = false;
-                logEntity.F_Description = "登录失败，" + ex.Message;
+                logEntity.FAccount = username;
+                logEntity.FNickName = username;
+                logEntity.FResult = false;
+                logEntity.FDescription = "登录失败，" + ex.Message;
                 new LogApp().WriteDbLog(logEntity);
                 return Content(new AjaxResult { state = ResultType.error.ToString(), message = ex.Message }.ToJson());
             }
-            return Ok();
         }
     }
 }

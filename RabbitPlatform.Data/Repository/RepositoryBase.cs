@@ -18,9 +18,17 @@
 //----------------------------------------------------------------*/
 #endregion
 
+using Microsoft.EntityFrameworkCore;
+using RabbitPlatform.Core;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace RabbitPlatform.Data
 {
@@ -29,16 +37,16 @@ namespace RabbitPlatform.Data
     /// </summary>
     public class RepositoryBase : IRepositoryBase, IDisposable
     {
-        private NFineDbContext dbcontext = new NFineDbContext();
+        private rabbitbaseContext dbcontext = new rabbitbaseContext();
         private DbTransaction dbTransaction { get; set; }
         public IRepositoryBase BeginTrans()
-        {
-            DbConnection dbConnection = ((IObjectContextAdapter)dbcontext).ObjectContext.Connection;
-            if (dbConnection.State == ConnectionState.Closed)
-            {
-                dbConnection.Open();
-            }
-            dbTransaction = dbConnection.BeginTransaction();
+        {//事物
+            //DbConnection dbConnection = ((IObjectContextAdapter)dbcontext).ObjectContext.Connection;
+            //if (dbConnection.State == ConnectionState.Closed)
+            //{
+            //    dbConnection.Open();
+            //}
+            //dbTransaction = dbConnection.BeginTransaction();
             return this;
         }
         public int Commit()
@@ -130,12 +138,14 @@ namespace RabbitPlatform.Data
             return dbcontext.Set<TEntity>().Where(predicate);
         }
         public List<TEntity> FindList<TEntity>(string strSql) where TEntity : class
-        {
-            return dbcontext.Database.SqlQuery<TEntity>(strSql).ToList<TEntity>();
+        {//通过sql语句查询
+            //return dbcontext.Database.SqlQuery<TEntity>(strSql).ToList<TEntity>();
+            return null;
         }
         public List<TEntity> FindList<TEntity>(string strSql, DbParameter[] dbParameter) where TEntity : class
-        {
-            return dbcontext.Database.SqlQuery<TEntity>(strSql, dbParameter).ToList<TEntity>();
+        {//通过sql语句查询
+            //return dbcontext.Database.SqlQuery<TEntity>(strSql, dbParameter).ToList<TEntity>();
+            return null;
         }
         public List<TEntity> FindList<TEntity>(Pagination pagination) where TEntity : class, new()
         {

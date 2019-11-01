@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="02 ViewModel\" />
+    <Compile Remove="02 ViewModel\**" />
+    <EmbeddedResource Remove="02 ViewModel\**" />
+    <None Remove="02 ViewModel\**" />
   </ItemGroup>
 
   <ItemGroup>

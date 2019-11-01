@@ -23,31 +23,31 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace RabbitPlatform.Domain
+namespace RabbitPlatform.Data
 {
    public class IEntity<T>
     {
         public void Create()
         {
             var entity = this as ICreationAudited;
-            entity.F_Id = Common.GuId();
+            entity.FId = Common.GuId();
             var LoginInfo = OperatorProvider.Provider.GetCurrent();
             if (LoginInfo != null)
             {
-                entity.F_CreatorUserId = LoginInfo.UserId;
+                entity.FCreatorUserId = LoginInfo.UserId;
             }
-            entity.F_CreatorTime = DateTime.Now;
+            entity.FCreatorTime = DateTime.Now;
         }
         public void Modify(string keyValue)
         {
             var entity = this as IModificationAudited;
-            entity.F_Id = keyValue;
+            entity.FId = keyValue;
             var LoginInfo = OperatorProvider.Provider.GetCurrent();
             if (LoginInfo != null)
             {
-                entity.F_LastModifyUserId = LoginInfo.UserId;
+                entity.FLastModifyUserId = LoginInfo.UserId;
             }
-            entity.F_LastModifyTime = DateTime.Now;
+            entity.FLastModifyTime = DateTime.Now;
         }
         public void Remove()
         {
@@ -55,10 +55,10 @@ namespace RabbitPlatform.Domain
             var LoginInfo = OperatorProvider.Provider.GetCurrent();
             if (LoginInfo != null)
             {
-                entity.F_DeleteUserId = LoginInfo.UserId;
+                entity.FDeleteUserId = LoginInfo.UserId;
             }
-            entity.F_DeleteTime = DateTime.Now;
-            entity.F_DeleteMark = true;
+            entity.FDeleteTime = DateTime.Now;
+            entity.FDeleteMark = true;
         }
     }
 }

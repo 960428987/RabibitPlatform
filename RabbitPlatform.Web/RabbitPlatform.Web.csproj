@@ -17,6 +17,7 @@
     <ProjectReference Include="..\DependencyInjection\DependencyInjection.csproj" />
     <ProjectReference Include="..\RabbitPlatform.Application\RabbitPlatform.Application.csproj" />
     <ProjectReference Include="..\RabbitPlatform.Core\RabbitPlatform.Core.csproj" />
+    <ProjectReference Include="..\RabbitPlatform.Data\RabbitPlatform.Data.csproj" />
     <ProjectReference Include="..\RabbitPlatform.Domain\RabbitPlatform.Domain.csproj" />
   </ItemGroup>
 

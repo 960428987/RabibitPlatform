@@ -1,16 +1,16 @@
 ﻿#region << 版 本 注 释 >>
 /*----------------------------------------------------------------
-* 项目名称 ：RabbitPlatform.Domain._01_Infrastructure
+* 项目名称 ：RabbitPlatform.Data._04_IRepository.SystemSecurity
 * 项目描述 ：
-* 类 名 称 ：IModificationAudited
+* 类 名 称 ：ILogRepository
 * 类 描 述 ：
 * 所在的域 ：DESKTOP-O4LCU7F
-* 命名空间 ：RabbitPlatform.Domain._01_Infrastructure
+* 命名空间 ：RabbitPlatform.Data._04_IRepository.SystemSecurity
 * 机器名称 ：DESKTOP-O4LCU7F 
 * CLR 版本 ：4.0.30319.42000
 * 作    者 ：welus
-* 创建时间 ：2019/10/31 14:25:40
-* 更新时间 ：2019/10/31 14:25:40
+* 创建时间 ：2019/11/1 16:39:50
+* 更新时间 ：2019/11/1 16:39:50
 * 版 本 号 ：v1.0.0.0
 *******************************************************************
 * Copyright @ welus 2019. All rights reserved.
@@ -22,12 +22,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace RabbitPlatform.Domain
-{
-    public interface IModificationAudited
-    {
-        string F_Id { get; set; }
-        string F_LastModifyUserId { get; set; }
-        DateTime? F_LastModifyTime { get; set; }
+namespace RabbitPlatform.Data
+{ 
+    public interface ILogRepository : IRepositoryBase<SysLog>
+    {//这是用来扩展接口的
+
     }
 }

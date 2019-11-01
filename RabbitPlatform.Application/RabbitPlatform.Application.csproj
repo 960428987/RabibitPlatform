@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="SystemSecurity\" />
+    <ProjectReference Include="..\RabbitPlatform.Core\RabbitPlatform.Core.csproj" />
+    <ProjectReference Include="..\RabbitPlatform.Data\RabbitPlatform.Data.csproj" />
+    <ProjectReference Include="..\RabbitPlatform.Repository\RabbitPlatform.Repository.csproj" />
   </ItemGroup>
 
 </Project>

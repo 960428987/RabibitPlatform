@@ -18,6 +18,9 @@
 //----------------------------------------------------------------*/
 #endregion
 
+using RabbitPlatform.Core;
+using RabbitPlatform.Data;
+using RabbitPlatform.Repository.SystemManage;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -29,19 +32,19 @@ namespace RabbitPlatform.Application.SystemManage
         private IUserRepository service = new UserRepository();
         private UserLogOnApp userLogOnApp = new UserLogOnApp();
 
-        public List<UserEntity> GetList(Pagination pagination, string keyword)
+        public List<SysUser> GetList(Pagination pagination, string keyword)
         {
-            var expression = ExtLinq.True<UserEntity>();
+            var expression = ExtLinq.True<SysUser>();
             if (!string.IsNullOrEmpty(keyword))
             {
-                expression = expression.And(t => t.F_Account.Contains(keyword));
-                expression = expression.Or(t => t.F_RealName.Contains(keyword));
-                expression = expression.Or(t => t.F_MobilePhone.Contains(keyword));
+                expression = expression.And(t => t.FAccount.Contains(keyword));
+                expression = expression.Or(t => t.FRealName.Contains(keyword));
+                expression = expression.Or(t => t.FMobilePhone.Contains(keyword));
             }
-            expression = expression.And(t => t.F_Account != "admin");
+            expression = expression.And(t => t.FAccount != "admin");
             return service.FindList(expression, pagination);
         }
-        public UserEntity GetForm(string keyValue)
+        public SysUser GetForm(string keyValue)
         {
             return service.FindEntity(keyValue);
         }
@@ -49,7 +52,7 @@ namespace RabbitPlatform.Application.SystemManage
         {
             service.DeleteForm(keyValue);
         }
-        public void SubmitForm(UserEntity userEntity, UserLogOnEntity userLogOnEntity, string keyValue)
+        public void SubmitForm(SysUser userEntity, SysUserlogon userLogOnEntity, string keyValue)
         {
             if (!string.IsNullOrEmpty(keyValue))
             {
@@ -61,29 +64,29 @@ namespace RabbitPlatform.Application.SystemManage
             }
             service.SubmitForm(userEntity, userLogOnEntity, keyValue);
         }
-        public void UpdateForm(UserEntity userEntity)
+        public void UpdateForm(SysUser userEntity)
         {
             service.Update(userEntity);
         }
-        public UserEntity CheckLogin(string username, string password)
+        public SysUser CheckLogin(string username, string password)
         {
-            UserEntity userEntity = service.FindEntity(t => t.F_Account == username);
+            SysUser userEntity = service.FindEntity(t => t.FAccount == username);
             if (userEntity != null)
             {
-                if (userEntity.F_EnabledMark == true)
+                if (userEntity.FEnabledMark == true)
                 {
-                    UserLogOnEntity userLogOnEntity = userLogOnApp.GetForm(userEntity.F_Id);
-                    string dbPassword = Md5.md5(DESEncrypt.Encrypt(password.ToLower(), userLogOnEntity.F_UserSecretkey).ToLower(), 32).ToLower();
-                    if (dbPassword == userLogOnEntity.F_UserPassword)
+                    SysUserlogon userLogOnEntity = userLogOnApp.GetForm(userEntity.FId);
+                    string dbPassword = Md5.md5(DESEncrypt.Encrypt(password.ToLower(), userLogOnEntity.FUserSecretkey).ToLower(), 32).ToLower();
+                    if (dbPassword == userLogOnEntity.FUserPassword)
                     {
                         DateTime lastVisitTime = DateTime.Now;
-                        int LogOnCount = (userLogOnEntity.F_LogOnCount).ToInt() + 1;
-                        if (userLogOnEntity.F_LastVisitTime != null)
+                        int LogOnCount = (userLogOnEntity.FLogOnCount).ToInt() + 1;
+                        if (userLogOnEntity.FLastVisitTime != null)
                         {
-                            userLogOnEntity.F_PreviousVisitTime = userLogOnEntity.F_LastVisitTime.ToDate();
+                            userLogOnEntity.FPreviousVisitTime = userLogOnEntity.FLastVisitTime.ToDate();
                         }
-                        userLogOnEntity.F_LastVisitTime = lastVisitTime;
-                        userLogOnEntity.F_LogOnCount = LogOnCount;
+                        userLogOnEntity.FLastVisitTime = lastVisitTime;
+                        userLogOnEntity.FLogOnCount = LogOnCount;
                         userLogOnApp.UpdateForm(userLogOnEntity);
                         return userEntity;
                     }

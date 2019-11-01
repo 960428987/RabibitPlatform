@@ -18,10 +18,16 @@
 //----------------------------------------------------------------*/
 #endregion
 
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Linq;
+using System.Reflection;
 using System.Text;
-
+using RabbitPlatform.Core;
+using System.Data.Common;
+using System.Text.RegularExpressions;
 namespace RabbitPlatform.Data
 {
     /// <summary>
@@ -30,7 +36,7 @@ namespace RabbitPlatform.Data
     /// <typeparam name="TEntity"></typeparam>
     public class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : class, new()
     {
-        public NFineDbContext dbcontext = new NFineDbContext();
+        public rabbitbaseContext dbcontext = new rabbitbaseContext();
         public int Insert(TEntity entity)
         {
             dbcontext.Entry<TEntity>(entity).State = EntityState.Added;
@@ -89,11 +95,13 @@ namespace RabbitPlatform.Data
         }
         public List<TEntity> FindList(string strSql)
         {
-            return dbcontext.Database.SqlQuery<TEntity>(strSql).ToList<TEntity>();
+            //return dbcontext.Database.SqlQuery<TEntity>(strSql).ToList<TEntity>();
+            return null;
         }
         public List<TEntity> FindList(string strSql, DbParameter[] dbParameter)
         {
-            return dbcontext.Database.SqlQuery<TEntity>(strSql, dbParameter).ToList<TEntity>();
+            //return dbcontext.Database.SqlQuery<TEntity>(strSql, dbParameter).ToList<TEntity>();
+            return null;
         }
         public List<TEntity> FindList(Pagination pagination)
         {

@@ -5,19 +5,29 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Repository\IRepositoryBase.T.cs" />
+    <Compile Remove="DBContext\**" />
+    <EmbeddedResource Remove="DBContext\**" />
+    <EntityDeploy Remove="DBContext\**" />
+    <None Remove="DBContext\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Repository\IRepositoryBases.T.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="02 ViewModel\" />
     <Folder Include="Extensions\" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Repository\IRepositoryBase.T.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.3.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
