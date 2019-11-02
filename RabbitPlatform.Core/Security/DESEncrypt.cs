@@ -106,8 +106,8 @@ namespace RabbitPlatform.Core
             }
             //des.Key = ASCIIEncoding.ASCII.GetBytes(System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sKey, "md5").Substring(0, 8));
             //des.IV =  ASCIIEncoding.ASCII.GetBytes(System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sKey, "md5").Substring(0, 8));
-            des.Key = Convert.FromBase64String(sKey);
-            des.IV = Convert.FromBase64String(sKey);
+            des.Key = ASCIIEncoding.ASCII.GetBytes(Md5.md5(sKey, 32).Substring(0, 8));
+            des.IV = ASCIIEncoding.ASCII.GetBytes(Md5.md5(sKey, 32).Substring(0, 8));
             System.IO.MemoryStream ms = new System.IO.MemoryStream();
             CryptoStream cs = new CryptoStream(ms, des.CreateDecryptor(), CryptoStreamMode.Write);
             cs.Write(inputByteArray, 0, inputByteArray.Length);

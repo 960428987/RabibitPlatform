@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RabbitPlatform.Web.Models;
+using RabbitPlatform.Core;
 namespace RabbitPlatform.Web.Controllers
 {
     public class HomeController : Controller
