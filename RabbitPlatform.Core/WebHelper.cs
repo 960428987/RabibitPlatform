@@ -75,6 +75,14 @@ namespace RabbitPlatform.Core
             HttpContext.Current.Session.Remove(key);
         }
 
+        /// <summary>
+        /// 删除Session
+        /// </summary>
+        /// <param name="key">Session的键名</param>
+        public static void RemoveSession()
+        {
+            HttpContext.Current.Session.Clear();
+        }
         #endregion
 
         #region Cookie操作

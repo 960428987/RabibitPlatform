@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="02 ViewModel\" />
     <Folder Include="Extensions\" />
   </ItemGroup>
 

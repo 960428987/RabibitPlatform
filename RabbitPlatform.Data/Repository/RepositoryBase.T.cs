@@ -99,13 +99,13 @@ namespace RabbitPlatform.Data
         }
         public List<TEntity> FindList(string strSql)
         {
+            return dbcontext.Set<TEntity>().FromSql(strSql).ToList<TEntity>();
             //return dbcontext.Database.SqlQuery<TEntity>(strSql).ToList<TEntity>();
-            return null;
         }
         public List<TEntity> FindList(string strSql, DbParameter[] dbParameter)
         {
+            return dbcontext.Set<TEntity>().FromSql(strSql, dbParameter).ToList<TEntity>();
             //return dbcontext.Database.SqlQuery<TEntity>(strSql, dbParameter).ToList<TEntity>();
-            return null;
         }
         public List<TEntity> FindList(Pagination pagination)
         {
