@@ -122,10 +122,6 @@ namespace RabbitPlatform.Web.Controllers
             Dictionary<string, object> dictionary = new Dictionary<string, object>();
             foreach (SysModulebutton item in dataModuleId)
             {
-                if (item.FModuleId == "e72c75d0-3a69-41ad-b220-13c9a62ec788")
-                {
-
-                }
                 var buttonList = data.Where(t => t.FModuleId.Equals(item.FModuleId));
                 dictionary.Add(item.FModuleId, buttonList);
             }

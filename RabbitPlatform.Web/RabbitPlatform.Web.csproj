@@ -21,4 +21,11 @@
     <ProjectReference Include="..\RabbitPlatform.Domain\RabbitPlatform.Domain.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="Controllers\SystemSecurity\" />
+    <Folder Include="Controllers\ReportManage\" />
+    <Folder Include="Controllers\ExampleManage\" />
+  </ItemGroup>
+
 </Project>
