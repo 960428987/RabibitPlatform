@@ -7,31 +7,8 @@ using System.Threading.Tasks;
 
 namespace RabbitPlatform.Web.App_Start.Handler
 {
-    [HandlerLogin]
-    public abstract class MyControllerBase : Controller
+    public class bases : Controller
     {
-        public Log FileLog
-        {
-            get { return LogFactory.GetLogger(this.GetType().ToString()); }
-        }
-        //[HttpGet]
-        //[HandlerAuthorize]
-        public virtual ActionResult Index()
-        {
-            return View();
-        }
-        [HttpGet]
-        [HandlerAuthorize]
-        public virtual ActionResult Form()
-        {
-            return View();
-        }
-        [HttpGet]
-        [HandlerAuthorize]
-        public virtual ActionResult Details()
-        {
-            return View();
-        }
         protected virtual ActionResult Success(string message)
         {
             return Content(new AjaxResult { state = ResultType.success.ToString(), message = message }.ToJson());
