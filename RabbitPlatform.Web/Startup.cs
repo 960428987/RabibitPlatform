@@ -47,6 +47,8 @@ namespace RabbitPlatform.Web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            //注入
+            MyServiceProvider.ServiceProvider = app.ApplicationServices;
             app.UseStaticHttpContext();
             app.UseStaticFiles();
             app.UseCookiePolicy();

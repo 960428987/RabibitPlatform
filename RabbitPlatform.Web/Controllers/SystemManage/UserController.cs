@@ -16,6 +16,7 @@ namespace RabbitPlatform.Web.Controllers.SystemManage
         private UserLogOnApp userLogOnApp = new UserLogOnApp();
         public IActionResult Index()
         {
+            FileLog.Info("测试测试");
             return View();
         }
         public IActionResult Details()

@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
@@ -23,6 +24,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DependencyInjection\DependencyInjection.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.Hosting">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.hosting\2.2.0\lib\netstandard2.0\Microsoft.Extensions.Hosting.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
