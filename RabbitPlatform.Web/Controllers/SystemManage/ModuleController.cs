@@ -7,14 +7,17 @@ using RabbitPlatform.Application.SystemManage;
 using RabbitPlatform.Web.App_Start.Handler;
 using RabbitPlatform.Data;
 using RabbitPlatform.Core;
-
-namespace RabbitPlatform.Web.Controllers
+namespace RabbitPlatform.Web.Controllers.SystemManage
 {
-    public class AreaController : MyControllerBase
+    public class ModuleController : MyControllerBase
     {
-        private AreaApp areaApp = new AreaApp();
+        private ModuleApp moduleApp = new ModuleApp();
 
         public IActionResult Index()
+        {
+            return View();
+        }
+        public IActionResult Details()
         {
             return View();
         }
@@ -22,13 +25,14 @@ namespace RabbitPlatform.Web.Controllers
         {
             return View();
         }
+
         [HttpGet]
         [HandlerAjaxOnly]
         public ActionResult GetTreeSelectJson()
         {
-            var data = areaApp.GetList();
+            var data = moduleApp.GetList();
             var treeList = new List<TreeSelectModel>();
-            foreach (SysArea item in data)
+            foreach (SysModule item in data)
             {
                 TreeSelectModel treeModel = new TreeSelectModel();
                 treeModel.id = item.FId;
@@ -42,23 +46,22 @@ namespace RabbitPlatform.Web.Controllers
         [HandlerAjaxOnly]
         public ActionResult GetTreeGridJson(string keyword)
         {
-            var data = areaApp.GetList();
+            var data = moduleApp.GetList();
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                data = data.TreeWhere(t => t.FFullName.Contains(keyword));
+            }
             var treeList = new List<TreeGridModel>();
-            foreach (SysArea item in data)
+            foreach (SysModule item in data)
             {
                 TreeGridModel treeModel = new TreeGridModel();
                 bool hasChildren = data.Count(t => t.FParentId == item.FId) == 0 ? false : true;
                 treeModel.id = item.FId;
-                treeModel.text = item.FFullName;
                 treeModel.isLeaf = hasChildren;
                 treeModel.parentId = item.FParentId;
-                treeModel.expanded = true;
+                treeModel.expanded = hasChildren;
                 treeModel.entityJson = item.ToJson();
                 treeList.Add(treeModel);
-            }
-            if (!string.IsNullOrEmpty(keyword))
-            {
-                treeList = treeList.TreeWhere(t => t.text.Contains(keyword), "id", "parentId");
             }
             return Content(treeList.TreeGridJson());
         }
@@ -66,15 +69,15 @@ namespace RabbitPlatform.Web.Controllers
         [HandlerAjaxOnly]
         public ActionResult GetFormJson(string keyValue)
         {
-            var data = areaApp.GetForm(keyValue);
+            var data = moduleApp.GetForm(keyValue);
             return Content(data.ToJson());
         }
         [HttpPost]
         [HandlerAjaxOnly]
         [ValidateAntiForgeryToken]
-        public ActionResult SubmitForm(SysArea areaEntity, string keyValue)
+        public ActionResult SubmitForm(SysModule moduleEntity, string keyValue)
         {
-            areaApp.SubmitForm(areaEntity, keyValue);
+            moduleApp.SubmitForm(moduleEntity, keyValue);
             return Success("操作成功。");
         }
         [HttpPost]
@@ -83,7 +86,7 @@ namespace RabbitPlatform.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteForm(string keyValue)
         {
-            areaApp.DeleteForm(keyValue);
+            moduleApp.DeleteForm(keyValue);
             return Success("删除成功。");
         }
     }

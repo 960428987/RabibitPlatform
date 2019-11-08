@@ -9,6 +9,10 @@ namespace RabbitPlatform.Web.App_Start.Handler
 {
     public class bases : Controller
     {
+        public Log FileLog
+        {
+            get { return LogFactory.GetLogger(this.GetType().ToString()); }
+        }
         protected virtual ActionResult Success(string message)
         {
             return Content(new AjaxResult { state = ResultType.success.ToString(), message = message }.ToJson());

@@ -11,6 +11,7 @@ namespace RabbitPlatform.Web.Controllers
     {
         public IActionResult Index()
         {
+            FileLog.Info("222");
             return View();
         }
         private UserApp userApp = new UserApp();

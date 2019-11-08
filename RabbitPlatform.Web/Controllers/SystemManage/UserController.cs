@@ -14,7 +14,26 @@ namespace RabbitPlatform.Web.Controllers.SystemManage
     {
         private UserApp userApp = new UserApp();
         private UserLogOnApp userLogOnApp = new UserLogOnApp();
-
+        public IActionResult Index()
+        {
+            return View();
+        }
+        public IActionResult Details()
+        {
+            return View();
+        }
+        public IActionResult Form()
+        {
+            return View();
+        }
+        public IActionResult Info()
+        {
+            return View();
+        }
+        public IActionResult RevisePassword()
+        {
+            return View();
+        }
         [HttpGet]
         [HandlerAjaxOnly]
         public IActionResult GetGridJson(Pagination pagination, string keyword)
@@ -52,11 +71,7 @@ namespace RabbitPlatform.Web.Controllers.SystemManage
             userApp.DeleteForm(keyValue);
             return Success("删除成功。");
         }
-        [HttpGet]
-        public IActionResult RevisePassword()
-        {
-            return View();
-        }
+       
         [HttpPost]
         [HandlerAjaxOnly]
         [HandlerAuthorize]
@@ -91,10 +106,6 @@ namespace RabbitPlatform.Web.Controllers.SystemManage
             return Success("账户启用成功。");
         }
 
-        [HttpGet]
-        public IActionResult Info()
-        {
-            return View();
-        }
+        
     }
 }

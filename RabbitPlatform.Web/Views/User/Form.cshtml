@@ -8,36 +8,36 @@
         initControl();
         if (!!keyValue) {
             $.ajax({
-                url: "/SystemManage/User/GetFormJson",
+                url: "/User/GetFormJson",
                 data: { keyValue: keyValue },
                 dataType: "json",
                 async: false,
                 success: function (data) {
                     $("#form1").formSerialize(data);
-                    $("#F_UserPassword").val("******").attr('disabled', 'disabled');
+                    $("#FUserPassword").val("******").attr('disabled', 'disabled');
                 }
             });
         }
     });
     function initControl() {
-        $("#F_Gender").bindSelect()
-        $("#F_IsAdministrator").bindSelect()
-        $("#F_EnabledMark").bindSelect()
-        $("#F_OrganizeId").bindSelect({
-            url: "/SystemManage/Organize/GetTreeSelectJson"
+        $("#FGender").bindSelect()
+        $("#FIsAdministrator").bindSelect()
+        $("#FEnabledMark").bindSelect()
+        $("#FOrganizeId").bindSelect({
+            url: "/Organize/GetTreeSelectJson"
         });
-        $("#F_DepartmentId").bindSelect({
-            url: "/SystemManage/Organize/GetTreeSelectJson",
+        $("#FDepartmentId").bindSelect({
+            url: "/Organize/GetTreeSelectJson",
         });
-        $("#F_RoleId").bindSelect({
-            url: "/SystemManage/Role/GetGridJson",
-            id: "F_Id",
-            text: "F_FullName"
+        $("#FRoleId").bindSelect({
+            url: "/Role/GetGridJson",
+            id: "FId",
+            text: "FFullName"
         });
-        $("#F_DutyId").bindSelect({
-            url: "/SystemManage/Duty/GetGridJson",
-            id: "F_Id",
-            text: "F_FullName"
+        $("#FDutyId").bindSelect({
+            url: "/Duty/GetGridJson",
+            id: "FId",
+            text: "FFullName"
         });
     }
     function submitForm() {
@@ -45,7 +45,7 @@
             return false;
         }
         $.submitForm({
-            url: "/SystemManage/User/SubmitForm?keyValue=" + keyValue,
+            url: "/User/SubmitForm?keyValue=" + keyValue,
             param: $("#form1").formSerialize(),
             success: function () {
                 $.currentWindow().$("#gridList").trigger("reloadGrid");
@@ -64,21 +64,22 @@
                 <tr>
                     <th class="formTitle">账户</th>
                     <td class="formValue">
-                        <input id="F_Account" name="F_Account" type="text" class="form-control required" placeholder="请输入账户" />
+                        <input id="FAccount" name="FAccount" type="text" class="form-control required" placeholder="请输入账户" />
                     </td>
                     <th class="formTitle">密码</th>
                     <td class="formValue">
-                        <input id="F_UserPassword" name="F_UserPassword" type="password" class="form-control required" placeholder="请输入密码" />
+                        <input id="FUserPassword" name="FUserPassword" type="password" class="form-control required" placeholder="请输入密码" />
                     </td>
                 </tr>
                 <tr>
                     <th class="formTitle">公司</th>
                     <td class="formValue">
-                        <select id="F_OrganizeId" name="F_OrganizeId" class="form-control required"></select>
+                        <select id="FOrganizeId" name="FOrganizeId" class="form-control required">
+                        </select>
                     </td>
                     <th class="formTitle">部门</th>
                     <td class="formValue">
-                        <select id="F_DepartmentId" name="F_DepartmentId" class="form-control required">
+                        <select id="FDepartmentId" name="FDepartmentId" class="form-control required">
                             <option value="">==请选择==</option>
                         </select>
                     </td>
@@ -86,13 +87,13 @@
                 <tr>
                     <th class="formTitle">角色</th>
                     <td class="formValue">
-                        <select id="F_RoleId" name="F_RoleId" class="form-control required">
+                        <select id="FRoleId" name="FRoleId" class="form-control required">
                             <option value="">==请选择==</option>
                         </select>
                     </td>
                     <th class="formTitle">岗位</th>
                     <td class="formValue">
-                        <select id="F_DutyId" name="F_DutyId" class="form-control required">
+                        <select id="FDutyId" name="FDutyId" class="form-control required">
                             <option value="">==请选择==</option>
                         </select>
                     </td>
@@ -100,11 +101,11 @@
                 <tr>
                     <th class="formTitle">姓名</th>
                     <td class="formValue">
-                        <input id="F_RealName" name="F_RealName" type="text" class="form-control required" placeholder="请输入姓名" />
+                        <input id="FRealName" name="FRealName" type="text" class="form-control required" placeholder="请输入姓名" />
                     </td>
                     <th class="formTitle">性别</th>
                     <td class="formValue">
-                        <select id="F_Gender" name="F_Gender" class="form-control required">
+                        <select id="FGender" name="FGender" class="form-control required">
                             <option value="true">男</option>
                             <option value="false">女</option>
                         </select>
@@ -113,45 +114,44 @@
                 <tr>
                     <th class="formTitle">手机</th>
                     <td class="formValue">
-                        <input id="F_MobilePhone" name="F_MobilePhone" type="text" class="form-control" />
+                        <input id="FMobilePhone" name="FMobilePhone" type="text" class="form-control" />
                     </td>
                     <th class="formTitle">生日</th>
                     <td class="formValue">
-                        <input id="F_Birthday" name="F_Birthday" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
+                        <input id="FBirthday" name="FBirthday" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
                     </td>
                 </tr>
                 <tr>
                     <th class="formTitle">微信</th>
                     <td class="formValue">
-                        <input id="F_WeChat" name="F_WeChat" type="text" class="form-control" />
+                        <input id="FWeChat" name="FWeChat" type="text" class="form-control" />
                     </td>
                     <th class="formTitle">邮箱</th>
                     <td class="formValue">
-                        <input id="F_Email" name="F_Email" type="text" class="form-control" />
+                        <input id="FEmail" name="FEmail" type="text" class="form-control" />
                     </td>
                 </tr>
                 <tr>
                     <th class="formTitle">类型</th>
                     <td class="formValue">
-                        <select id="F_IsAdministrator" name="F_IsAdministrator" class="form-control">
+                        <select id="FIsAdministrator" name="FIsAdministrator" class="form-control">
                             <option value="false">普通用户</option>
                             <option value="true">系统管理员</option>
                         </select>
                     </td>
                     <th class="formTitle">允许登录</th>
                     <td class="formValue">
-                        <select id="F_EnabledMark" name="F_EnabledMark" class="form-control">
+                        <select id="FEnabledMark" name="FEnabledMark" class="form-control">
                             <option value="true">是</option>
                             <option value="false">否</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
-                    <th class="formTitle" valign="top" style="padding-top: 5px;">
-                        备注
+                    <th class="formTitle" valign="top" style="padding-top: 5px;">备注
                     </th>
                     <td class="formValue" colspan="3">
-                        <textarea id="F_Description" name="F_Description" class="form-control" style="height: 60px;"></textarea>
+                        <textarea id="FDescription" name="FDescription" class="form-control" style="height: 60px;"></textarea>
                     </td>
                 </tr>
             </table>

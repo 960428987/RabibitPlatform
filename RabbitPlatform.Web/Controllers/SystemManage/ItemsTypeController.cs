@@ -7,14 +7,15 @@ using RabbitPlatform.Application.SystemManage;
 using RabbitPlatform.Web.App_Start.Handler;
 using RabbitPlatform.Data;
 using RabbitPlatform.Core;
-
-namespace RabbitPlatform.Web.Controllers
+namespace RabbitPlatform.Web.Controllers.SystemManage
 {
-    public class AreaController : MyControllerBase
+    public class ItemsTypeController : MyControllerBase
     {
-        private AreaApp areaApp = new AreaApp();
-
         public IActionResult Index()
+        {
+            return View();
+        }
+        public IActionResult Details()
         {
             return View();
         }
@@ -22,13 +23,15 @@ namespace RabbitPlatform.Web.Controllers
         {
             return View();
         }
+        private ItemsApp itemsApp = new ItemsApp();
+
         [HttpGet]
         [HandlerAjaxOnly]
         public ActionResult GetTreeSelectJson()
         {
-            var data = areaApp.GetList();
+            var data = itemsApp.GetList();
             var treeList = new List<TreeSelectModel>();
-            foreach (SysArea item in data)
+            foreach (SysItems item in data)
             {
                 TreeSelectModel treeModel = new TreeSelectModel();
                 treeModel.id = item.FId;
@@ -40,25 +43,41 @@ namespace RabbitPlatform.Web.Controllers
         }
         [HttpGet]
         [HandlerAjaxOnly]
-        public ActionResult GetTreeGridJson(string keyword)
+        public ActionResult GetTreeJson()
         {
-            var data = areaApp.GetList();
+            var data = itemsApp.GetList();
+            var treeList = new List<TreeViewModel>();
+            foreach (SysItems item in data)
+            {
+                TreeViewModel tree = new TreeViewModel();
+                bool hasChildren = data.Count(t => t.FParentId == item.FId) == 0 ? false : true;
+                tree.id = item.FId;
+                tree.text = item.FFullName;
+                tree.value = item.FEnCode;
+                tree.parentId = item.FParentId;
+                tree.isexpand = true;
+                tree.complete = true;
+                tree.hasChildren = hasChildren;
+                treeList.Add(tree);
+            }
+            return Content(treeList.TreeViewJson());
+        }
+        [HttpGet]
+        [HandlerAjaxOnly]
+        public ActionResult GetTreeGridJson()
+        {
+            var data = itemsApp.GetList();
             var treeList = new List<TreeGridModel>();
-            foreach (SysArea item in data)
+            foreach (SysItems item in data)
             {
                 TreeGridModel treeModel = new TreeGridModel();
                 bool hasChildren = data.Count(t => t.FParentId == item.FId) == 0 ? false : true;
                 treeModel.id = item.FId;
-                treeModel.text = item.FFullName;
                 treeModel.isLeaf = hasChildren;
                 treeModel.parentId = item.FParentId;
-                treeModel.expanded = true;
+                treeModel.expanded = hasChildren;
                 treeModel.entityJson = item.ToJson();
                 treeList.Add(treeModel);
-            }
-            if (!string.IsNullOrEmpty(keyword))
-            {
-                treeList = treeList.TreeWhere(t => t.text.Contains(keyword), "id", "parentId");
             }
             return Content(treeList.TreeGridJson());
         }
@@ -66,24 +85,23 @@ namespace RabbitPlatform.Web.Controllers
         [HandlerAjaxOnly]
         public ActionResult GetFormJson(string keyValue)
         {
-            var data = areaApp.GetForm(keyValue);
+            var data = itemsApp.GetForm(keyValue);
             return Content(data.ToJson());
         }
         [HttpPost]
         [HandlerAjaxOnly]
         [ValidateAntiForgeryToken]
-        public ActionResult SubmitForm(SysArea areaEntity, string keyValue)
+        public ActionResult SubmitForm(SysItems itemsEntity, string keyValue)
         {
-            areaApp.SubmitForm(areaEntity, keyValue);
+            itemsApp.SubmitForm(itemsEntity, keyValue);
             return Success("操作成功。");
         }
         [HttpPost]
         [HandlerAjaxOnly]
-        [HandlerAuthorize]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteForm(string keyValue)
         {
-            areaApp.DeleteForm(keyValue);
+            itemsApp.DeleteForm(keyValue);
             return Success("删除成功。");
         }
     }
