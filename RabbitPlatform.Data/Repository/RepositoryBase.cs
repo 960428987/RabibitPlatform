@@ -19,6 +19,7 @@
 #endregion
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using RabbitPlatform.Core;
 using System;
 using System.Collections.Generic;
@@ -38,15 +39,10 @@ namespace RabbitPlatform.Data
     public class RepositoryBase : IRepositoryBase, IDisposable
     {
         private rabbitbaseContext dbcontext = new rabbitbaseContext();
-        private DbTransaction dbTransaction { get; set; }
+        private IDbContextTransaction dbTransaction { get; set; }
         public IRepositoryBase BeginTrans()
         {//事物
-            //DbConnection dbConnection = ((IObjectContextAdapter)dbcontext).ObjectContext.Connection;
-            //if (dbConnection.State == ConnectionState.Closed)
-            //{
-            //    dbConnection.Open();
-            //}
-            //dbTransaction = dbConnection.BeginTransaction();
+            dbTransaction = dbcontext.Database.BeginTransaction();
             return this;
         }
         public int Commit()
