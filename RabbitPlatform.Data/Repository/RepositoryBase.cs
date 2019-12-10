@@ -139,13 +139,14 @@ namespace RabbitPlatform.Data
         }
         public List<TEntity> FindList<TEntity>(string strSql) where TEntity : class
         {//通过sql语句查询
-            //return dbcontext.Database.SqlQuery<TEntity>(strSql).ToList<TEntity>();
-            return null;
+            return dbcontext.Set<TEntity>().FromSql(strSql).ToList<TEntity>();
+            //return null;
         }
         public List<TEntity> FindList<TEntity>(string strSql, DbParameter[] dbParameter) where TEntity : class
         {//通过sql语句查询
+            return dbcontext.Set<TEntity>().FromSql(strSql, dbParameter).ToList<TEntity>();
             //return dbcontext.Database.SqlQuery<TEntity>(strSql, dbParameter).ToList<TEntity>();
-            return null;
+            //return null;
         }
         public List<TEntity> FindList<TEntity>(Pagination pagination) where TEntity : class, new()
         {
