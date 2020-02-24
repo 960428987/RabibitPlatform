@@ -34,8 +34,8 @@ namespace RabbitPlatform.Repository.SystemManage
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append(@"SELECT  d.*
-                            FROM    Sys_ItemsDetail d
-                                    INNER  JOIN Sys_Items i ON i.F_Id = d.F_ItemId
+                            FROM    sys_itemsdetail d
+                                    INNER  JOIN sys_items i ON i.F_Id = d.F_ItemId
                             WHERE   1 = 1
                                     AND i.F_EnCode = @enCode
                                     AND d.F_EnabledMark = 1

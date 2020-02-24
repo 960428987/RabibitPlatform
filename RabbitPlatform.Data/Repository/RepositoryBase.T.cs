@@ -61,9 +61,16 @@ namespace RabbitPlatform.Data
                     if (prop.GetValue(entity, null).ToString() == "&nbsp;")
                     {
                         dbcontext.Entry(entity).Property(prop.Name).CurrentValue = null;
+                       // dbcontext.Entry(entity).Property(prop.Name).IsModified = false;
+                    }
+                    if (prop.Name.ToLower() != "fid")
+                    {
+                        dbcontext.Entry(entity).Property(prop.Name).IsModified = true;
+                    }
+                    else
+                    {//FID是主键，有依赖关系，修改时会报错，做映射时主键需要都映射为FID
                         dbcontext.Entry(entity).Property(prop.Name).IsModified = false;
                     }
-                      
                     //dbcontext.Entry(entity).Property(prop.Name).IsModified = true;
                 }
             }
