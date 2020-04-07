@@ -27,7 +27,7 @@ namespace RabbitPlatform.Web
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => false;//如果不将true改为false，则在新页面中获取不到Sesssion(值为null).切记
+                options.CheckConsentNeeded = context => false;//如果不将true改为false，则在新页面中获取不到Sesssion(值为null).切记 
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             services.AddSession();
